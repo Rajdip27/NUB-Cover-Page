@@ -8,7 +8,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-@page { size: A4; margin: 0; }
+@page { 
+    size: A4; 
+    margin: 0;
+}
 body {
     background-color: #e9eef3;
     display: flex;
@@ -99,6 +102,8 @@ body {
     transition: all 0.5s ease;
     position: relative;
     overflow: hidden;
+    page-break-inside: avoid;
+    page-break-after: avoid;
 }
 .page::before {
     content: "";
@@ -152,6 +157,7 @@ body {
     margin: 10px 0;
     width: 80%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    page-break-inside: avoid;
 }
 .course-code { 
     text-align: center; 
@@ -159,6 +165,7 @@ body {
     font-weight: 600; 
     font-size: 20px; 
     color: #003366;
+    page-break-inside: avoid;
 }
 
 .info-box {
@@ -171,6 +178,7 @@ body {
     width: 80%;
     box-shadow: 0 5px 15px rgba(0, 51, 102, 0.1);
     transition: all 0.3s;
+    page-break-inside: avoid;
 }
 .info-box:hover {
     transform: translateY(-3px);
@@ -219,10 +227,7 @@ body {
     justify-content: center;
     align-items: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-.footer span { 
-    margin-right: 5px; 
-    font-weight: 600; 
+    page-break-inside: avoid;
 }
 
 /* Toast notification */
@@ -244,22 +249,50 @@ body {
     height: 1rem;
 }
 
+/* Print Styles - Fixed to ensure single page */
 @media print {
-    body { background: none; padding: 0; }
-    .config-form, .action-container, .toast-container { display: none !important; }
-    .page { 
-        border: 2px solid #003366; 
-        box-shadow: none; 
-        width: 210mm; 
-        height: 297mm; 
-        margin: 0; 
-        opacity: 1; 
-        page-break-after: always; 
-        transform: none !important;
+    body, html {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
     }
+    
+    .config-form, .action-container, .toast-container { 
+        display: none !important; 
+    }
+    
+    .page { 
+        width: 210mm !important;
+        height: 297mm !important;
+        margin: 0 !important;
+        padding: 25mm 20mm !important;
+        border: 2px solid #003366 !important;
+        box-shadow: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-inside: avoid !important;
+        page-break-after: avoid !important;
+        overflow: hidden !important;
+    }
+    
     .info-box:hover {
-        transform: none;
-        box-shadow: 0 5px 15px rgba(0, 51, 102, 0.1);
+        transform: none !important;
+        box-shadow: 0 5px 15px rgba(0, 51, 102, 0.1) !important;
+    }
+    
+    /* Ensure everything fits on one page */
+    .header {
+        margin: 20px 0px !important;
+    }
+    
+    .info-box {
+        margin: 20px auto 15px auto !important;
+    }
+    
+    .footer {
+        margin-top: 25px !important;
     }
 }
 
@@ -283,31 +316,31 @@ body {
         <div class="form-row">
             <div class="form-group">
                 <label for="inputAssignmentTitle">Assignment Title/Number</label>
-                <input type="text" id="inputAssignmentTitle" class="form-control" value="ASSIGNMENT – 01" required>
+                <input type="text" id="inputAssignmentTitle" class="form-control" placeholder="ASSIGNMENT – 01" required>
             </div>
             <div class="form-group">
                 <label for="inputCourseCode">Course Code</label>
-                <input type="text" id="inputCourseCode" class="form-control" value="CSE173" required>
+                <input type="text" id="inputCourseCode" class="form-control" placeholder="CSE173" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="inputStudentName">Student Name</label>
-                <input type="text" id="inputStudentName" class="form-control" value="Minhaj Rahman" required>
+                <input type="text" id="inputStudentName" class="form-control" placeholder="Rajdip" required>
             </div>
             <div class="form-group">
                 <label for="inputStudentId">Student ID</label>
-                <input type="text" id="inputStudentId" class="form-control" value="232234567" required>
+                <input type="text" id="inputStudentId" class="form-control" placeholder="232234567" required>
             </div>
             <div class="form-group">
                 <label for="inputSection">Section</label>
-                <input type="text" id="inputSection" class="form-control" value="01" required>
+                <input type="text" id="inputSection" class="form-control" placeholder="2C" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="inputFacultyName">Faculty Name</label>
-                <input type="text" id="inputFacultyName" class="form-control" value="Dr. Sajid Hossain" required>
+                <input type="text" id="inputFacultyName" class="form-control" placeholder="Dr. Sajid Hossain" required>
             </div>
             <div class="form-group">
                 <label for="inputSubmissionDate">Submission Date</label>
@@ -330,9 +363,7 @@ body {
     <button id="downloadPdf" class="btn btn-primary btn-lg" onclick="handleDownload('PDF')" disabled>
         <i class="fas fa-file-pdf"></i> Download PDF
     </button>
-    <button id="downloadDoc" class="btn btn-success btn-lg" onclick="handleDownload('DOC')" disabled>
-        <i class="fas fa-file-word"></i> Download DOC
-    </button>
+   
     <button id="resetBtn" class="btn btn-warning btn-lg" onclick="resetForm()">
         <i class="fas fa-redo"></i> Reset Form
     </button>
@@ -361,7 +392,7 @@ body {
     </div>
 
     <div class="footer">
-        <i class="fas fa-calendar-alt me-2"></i> Submitted on <span id="displaySubmissionDate"></span>
+        <i class="fas fa-calendar-alt me-2"></i> <span id="displaySubmissionDate"></span>
     </div>
 </div>
 
@@ -427,13 +458,16 @@ function previewTemplate() {
     document.getElementById('displayStudentId').textContent = data.sId;
     document.getElementById('displaySection').textContent = data.section;
     document.getElementById('displayFacultyName').textContent = data.fName;
-    document.getElementById('displaySubmissionDate').textContent = data.date;
+    
+    // Fix: Add "Submitted on" text before the date
+    document.getElementById('displaySubmissionDate').textContent = "Submitted on " + data.date;
+    
     document.getElementById('displayDepartment').textContent = data.dept;
     document.getElementById('displayFacultyDept').textContent = data.dept;
 
     page.classList.remove('hidden');
     document.getElementById('downloadPdf').disabled = false;
-    document.getElementById('downloadDoc').disabled = false;
+ 
     
     showToast('Preview Generated', 'Your assignment cover page is ready!', 'success');
     
@@ -453,80 +487,8 @@ function handleDownload(format) {
         setTimeout(() => {
             window.print();
         }, 500);
-    } else if (format === 'DOC') {
-        showToast('Generating Document', 'Creating Word document...', 'info');
-        
-        try {
-            const coverPageHtml = page.outerHTML;
-            const htmlContent = `
-<html xmlns:o='urn:schemas-microsoft-com:office:office'
-      xmlns:w='urn:schemas-microsoft-com:office:word'
-      xmlns='http://www.w3.org/TR/REC-html40'>
-<head>
-<meta charset='utf-8'>
-<title>Assignment Cover Page</title>
-<style>
-body { 
-    font-family: Arial, sans-serif; 
-    margin: 0;
-    padding: 0;
-}
-.page { 
-    width: 210mm; 
-    padding: 25mm 20mm; 
-    margin: 0 auto;
-    border: 2px solid #003366;
-}
-.header { text-align: center; margin: 40px 0px; }
-.header h4 { color: #003366; font-weight: 700; font-size: 24px; }
-.assignment-title { 
-    background-color: #003366; 
-    color: white; 
-    padding: 12px; 
-    font-weight: 600; 
-    text-align: center; 
-    border-radius: 8px;
-    margin: 10px auto;
-    width: 80%;
-}
-.info-box { 
-    border: 2px solid #003366; 
-    border-radius: 25px 60px 25px 60px; 
-    padding: 20px 30px; 
-    margin: 40px auto; 
-    width: 80%; 
-    background: linear-gradient(white, #f7faff);
-}
-.footer {
-    background-color: #003366;
-    color: white;
-    text-align: center;
-    font-weight: 600;
-    padding: 10px;
-    border-radius: 8px;
-    width: 80%;
-    margin-top: 50px;
-}
-</style>
-</head>
-<body>${coverPageHtml}</body>
-</html>`;
-
-            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'Assignment_Cover_Page.doc';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-            
-            showToast('Document Downloaded', 'Word document saved successfully!', 'success');
-        } catch (error) {
-            console.error('Error generating document:', error);
-            showToast('Error', 'Failed to generate document. Please try again.', 'error');
-        }
+    } else {
+        showToast('Unsupported Format', 'Currently, only PDF download is supported.', 'error');
     }
 }
 
@@ -534,14 +496,14 @@ function resetForm() {
     document.getElementById('assignmentForm').reset();
     document.getElementById('coverPage').classList.add('hidden');
     document.getElementById('downloadPdf').disabled = true;
-    document.getElementById('downloadDoc').disabled = true;
+ 
     showToast('Form Reset', 'All fields have been reset.', 'info');
 }
 
 // Auto-fill current date
 document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('inputSubmissionDate');
-    if (dateInput && dateInput.value === '16th October 2025') {
+    if (dateInput && !dateInput.value) {
         const today = new Date();
         const options = { day: 'numeric', month: 'long', year: 'numeric' };
         dateInput.value = today.toLocaleDateString('en-GB', options);
