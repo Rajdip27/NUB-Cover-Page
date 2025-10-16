@@ -12,6 +12,7 @@
     size: A4; 
     margin: 0;
 }
+
 body {
     background-color: #e9eef3;
     display: flex;
@@ -23,6 +24,8 @@ body {
     padding: 30px 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* ---------- FORM CONTAINER ---------- */
 .config-form {
     background-color: #fff;
     padding: 25px;
@@ -65,6 +68,7 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(0, 51, 102, 0.25);
 }
 
+/* ---------- BUTTON AREA ---------- */
 .action-container {
     margin-bottom: 25px;
     width: 850px; 
@@ -88,11 +92,11 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* ---------- PAGE (A4 Layout) ---------- */
 .page {
     width: 210mm;
     height: 297mm;
     background-color: white;
-    border: none;
     padding: 25mm 20mm;
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     display: flex;
@@ -105,15 +109,6 @@ body {
     page-break-inside: avoid;
     page-break-after: avoid;
 }
-.page::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-   
-}
 .page.hidden { 
     opacity: 0; 
     pointer-events: none; 
@@ -124,6 +119,7 @@ body {
     transform: scale(0.9);
 }
 
+/* ---------- CONTENT ---------- */
 .header { 
     text-align: center; 
     margin: 40px 0px; 
@@ -134,17 +130,6 @@ body {
     height: auto; 
     max-width: 100%; 
     margin-bottom: 15px;
-}
-.header h4 {
-    color: #003366;
-    font-weight: 700;
-    margin-bottom: 5px;
-    font-size: 24px;
-}
-.header p {
-    color: #555;
-    font-style: italic;
-    margin-bottom: 0;
 }
 .assignment-title {
     background-color: #003366;
@@ -157,7 +142,6 @@ body {
     margin: 10px 0;
     width: 80%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    page-break-inside: avoid;
 }
 .course-code { 
     text-align: center; 
@@ -165,9 +149,7 @@ body {
     font-weight: 600; 
     font-size: 20px; 
     color: #003366;
-    page-break-inside: avoid;
 }
-
 .info-box {
     position: relative;
     border: 2px solid #003366;
@@ -178,13 +160,11 @@ body {
     width: 80%;
     box-shadow: 0 5px 15px rgba(0, 51, 102, 0.1);
     transition: all 0.3s;
-    page-break-inside: avoid;
 }
 .info-box:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 51, 102, 0.15);
 }
-
 .by { width: 75%; margin-right: 96px; }
 .to { width: 70%; margin-left: 127px; }
 
@@ -200,8 +180,6 @@ body {
 .info-box p { 
     font-size: 15px; 
     margin: 6px 0; 
-    display: flex; 
-    align-items: center; 
     color: #333;
 }
 .info-box strong { 
@@ -211,7 +189,6 @@ body {
 .dynamic-value { 
     font-weight: 600;
     padding-left: 5px; 
-   
 }
 
 .footer {
@@ -227,10 +204,9 @@ body {
     justify-content: center;
     align-items: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    page-break-inside: avoid;
 }
 
-/* Toast notification */
+/* ---------- TOAST ---------- */
 .toast-container {
     position: fixed;
     top: 20px;
@@ -243,60 +219,46 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Loading spinner */
-.spinner-border {
-    width: 1rem;
-    height: 1rem;
-}
-
-/* Print Styles - Fixed to ensure single page */
+/* ---------- PRINT FIX (No Blank Page) ---------- */
 @media print {
-    body, html {
-        width: 210mm;
-        height: 297mm;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: white !important;
-    }
-    
-    .config-form, .action-container, .toast-container { 
-        display: none !important; 
-    }
-    
-    .page { 
+    html, body {
         width: 210mm !important;
         height: 297mm !important;
         margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        display: block !important;
+        overflow: visible !important;
+    }
+
+    .config-form, .action-container, .toast-container { 
+        display: none !important; 
+    }
+
+    .page { 
+        width: 210mm !important;
+        height: 297mm !important;
+        margin: 0 auto !important;
         padding: 25mm 20mm !important;
-       
         box-shadow: none !important;
         opacity: 1 !important;
         transform: none !important;
-        page-break-inside: avoid !important;
+        page-break-before: avoid !important;
         page-break-after: avoid !important;
-        overflow: hidden !important;
+        page-break-inside: avoid !important;
+        overflow: visible !important;
     }
-    
-    .info-box:hover {
-        transform: none !important;
-        box-shadow: 0 5px 15px rgba(0, 51, 102, 0.1) !important;
+
+    * {
+        overflow: visible !important;
     }
-    
-    /* Ensure everything fits on one page */
-    .header {
-        margin: 20px 0px !important;
-    }
-    
-    .info-box {
-        margin: 20px auto 15px auto !important;
-    }
-    
-    .footer {
-        margin-top: 25px !important;
-    }
+
+    .header { margin: 20px 0 !important; }
+    .info-box { margin: 15px auto !important; }
+    .footer { margin-top: 25px !important; }
 }
 
-/* Responsive adjustments */
+/* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
     .form-row { gap: 10px; }
     .form-group { min-width: 100%; }
@@ -308,6 +270,7 @@ body {
 </head>
 <body>
 
+<!-- FORM -->
 <div class="config-form">
     <h4 class="text-center text-primary mb-4">
         <i class="fas fa-file-alt me-2"></i>Assignment Cover Page Generator
@@ -315,47 +278,48 @@ body {
     <form id="assignmentForm">
         <div class="form-row">
             <div class="form-group">
-                <label for="inputAssignmentTitle">Assignment Title/Number</label>
+                <label>Assignment Title/Number</label>
                 <input type="text" id="inputAssignmentTitle" class="form-control" placeholder="ASSIGNMENT – 01" required>
             </div>
             <div class="form-group">
-                <label for="inputCourseCode">Course Code</label>
+                <label>Course Code</label>
                 <input type="text" id="inputCourseCode" class="form-control" placeholder="CSE173" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="inputStudentName">Student Name</label>
+                <label>Student Name</label>
                 <input type="text" id="inputStudentName" class="form-control" placeholder="Rajdip" required>
             </div>
             <div class="form-group">
-                <label for="inputStudentId">Student ID</label>
+                <label>Student ID</label>
                 <input type="text" id="inputStudentId" class="form-control" placeholder="232234567" required>
             </div>
             <div class="form-group">
-                <label for="inputSection">Section</label>
+                <label>Section</label>
                 <input type="text" id="inputSection" class="form-control" placeholder="2C" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="inputFacultyName">Faculty Name</label>
+                <label>Faculty Name</label>
                 <input type="text" id="inputFacultyName" class="form-control" placeholder="Dr. Sajid Hossain" required>
             </div>
             <div class="form-group">
-                <label for="inputSubmissionDate">Submission Date</label>
+                <label>Submission Date</label>
                 <input type="text" id="inputSubmissionDate" class="form-control" value="16th October 2025" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="inputDepartment">Department</label>
+                <label>Department</label>
                 <input type="text" id="inputDepartment" class="form-control" value="Computer Science and Engineering" required>
             </div>
         </div>
     </form>
 </div>
 
+<!-- ACTION BUTTONS -->
 <div class="action-container">
     <button id="previewBtn" class="btn btn-info btn-lg" onclick="previewTemplate()">
         <i class="fas fa-eye"></i> Preview Template
@@ -363,32 +327,32 @@ body {
     <button id="downloadPdf" class="btn btn-primary btn-lg" onclick="handleDownload('PDF')" disabled>
         <i class="fas fa-file-pdf"></i> Download PDF
     </button>
-   
     <button id="resetBtn" class="btn btn-warning btn-lg" onclick="resetForm()">
         <i class="fas fa-redo"></i> Reset Form
     </button>
 </div>
 
+<!-- PREVIEW PAGE -->
 <div class="page hidden" id="coverPage">
     <div class="header">
         <img src="./image/NUB-Logo.png" alt="NUB Logo">
     </div>
 
     <div class="assignment-title" id="displayAssignmentTitle"></div>
-    <div class="course-code">Course code: <strong><span id="displayCourseCode" class="dynamic-value"></span></strong></div>
+    <div class="course-code">Course code: <strong><span id="displayCourseCode"></span></strong></div>
 
     <div class="info-box by">
         <div class="info-title">Submitted By</div>
-        <p><strong>Student name:</strong> <span id="displayStudentName" class="dynamic-value"></span></p>
-        <p><strong>Student ID:</strong> <span id="displayStudentId" class="dynamic-value"></span></p>
-        <p><strong>Section:</strong> <span id="displaySection" class="dynamic-value"></span></p>
-        <p><strong>Department:</strong> <span id="displayDepartment" class="dynamic-value"></span>, NUB</p>
+        <p><strong>Student name:</strong> <span id="displayStudentName"></span></p>
+        <p><strong>Student ID:</strong> <span id="displayStudentId"></span></p>
+        <p><strong>Section:</strong> <span id="displaySection"></span></p>
+        <p><strong>Department:</strong> <span id="displayDepartment"></span>, NUB</p>
     </div>
 
     <div class="info-box to">
         <div class="info-title">Submitted To</div>
-        <p><strong>Faculty name:</strong> <span id="displayFacultyName" class="dynamic-value"></span></p>
-        <p>Lecturer, <span id="displayFacultyDept" class="dynamic-value"></span>, NUB</p>
+        <p><strong>Faculty name:</strong> <span id="displayFacultyName"></span></p>
+        <p>Lecturer, <span id="displayFacultyDept"></span>, NUB</p>
     </div>
 
     <div class="footer">
@@ -396,134 +360,80 @@ body {
     </div>
 </div>
 
-<!-- Toast Notification -->
+<!-- TOAST -->
 <div class="toast-container">
     <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <strong class="me-auto" id="toastTitle">Notification</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body" id="toastMessage">
-            Operation completed successfully.
-        </div>
+        <div class="toast-body" id="toastMessage">Operation completed successfully.</div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Initialize toast
 const toastEl = document.getElementById('liveToast');
 const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
 
 function showToast(title, message, type = 'info') {
     document.getElementById('toastTitle').textContent = title;
     document.getElementById('toastMessage').textContent = message;
-    
-    // Set border color based on type
-    const borderColors = {
-        'success': '#28a745',
-        'error': '#dc3545',
-        'warning': '#ffc107',
-        'info': '#003366'
-    };
-    
+    const borderColors = { success: '#28a745', error: '#dc3545', warning: '#ffc107', info: '#003366' };
     toastEl.style.borderLeftColor = borderColors[type] || '#003366';
     toast.show();
 }
 
 function previewTemplate() {
-    const page = document.getElementById('coverPage');
     const form = document.getElementById('assignmentForm');
-    
     if (!form.checkValidity()) {
-        showToast('Validation Error', 'Please fill out all required fields before previewing.', 'error');
+        showToast('Validation Error', 'Please fill out all required fields.', 'error');
         form.reportValidity();
         return;
     }
 
     const data = {
-        title: document.getElementById('inputAssignmentTitle').value,
-        code: document.getElementById('inputCourseCode').value,
-        sName: document.getElementById('inputStudentName').value,
-        sId: document.getElementById('inputStudentId').value,
-        section: document.getElementById('inputSection').value,
-        fName: document.getElementById('inputFacultyName').value,
-        date: document.getElementById('inputSubmissionDate').value,
-        dept: document.getElementById('inputDepartment').value
+        title: inputAssignmentTitle.value,
+        code: inputCourseCode.value,
+        sName: inputStudentName.value,
+        sId: inputStudentId.value,
+        section: inputSection.value,
+        fName: inputFacultyName.value,
+        date: inputSubmissionDate.value,
+        dept: inputDepartment.value
     };
 
-    document.getElementById('displayAssignmentTitle').textContent = data.title;
-    document.getElementById('displayCourseCode').textContent = data.code;
-    document.getElementById('displayStudentName').textContent = data.sName;
-    document.getElementById('displayStudentId').textContent = data.sId;
-    document.getElementById('displaySection').textContent = data.section;
-    document.getElementById('displayFacultyName').textContent = data.fName;
-    
-    // Fix: Add "Submitted on" text before the date
-    document.getElementById('displaySubmissionDate').textContent = "Submitted on " + data.date;
-    
-    document.getElementById('displayDepartment').textContent = data.dept;
-    document.getElementById('displayFacultyDept').textContent = data.dept;
+    displayAssignmentTitle.textContent = data.title;
+    displayCourseCode.textContent = data.code;
+    displayStudentName.textContent = data.sName;
+    displayStudentId.textContent = data.sId;
+    displaySection.textContent = data.section;
+    displayFacultyName.textContent = data.fName;
+    displaySubmissionDate.textContent = "Submitted on " + data.date;
+    displayDepartment.textContent = data.dept;
+    displayFacultyDept.textContent = data.dept;
 
-    page.classList.remove('hidden');
-    document.getElementById('downloadPdf').disabled = false;
- 
-    
-    showToast('Preview Generated', 'Your assignment cover page is ready!', 'success');
-    
-    // Scroll to the preview
-    page.scrollIntoView({ behavior: 'smooth' });
+    coverPage.classList.remove('hidden');
+    downloadPdf.disabled = false;
+    showToast('Preview Generated', 'Your cover page is ready!', 'success');
+    coverPage.scrollIntoView({ behavior: 'smooth' });
 }
 
 function handleDownload(format) {
-    const page = document.getElementById('coverPage');
-    if (page.classList.contains('hidden')) {
-        showToast('Action Required', 'Please click "Preview Template" first.', 'warning');
+    if (coverPage.classList.contains('hidden')) {
+        showToast('Action Required', 'Click "Preview Template" first.', 'warning');
         return;
     }
-
-    if (format === 'PDF') {
-        showToast('Preparing PDF', 'Opening print dialog...', 'info');
-        setTimeout(() => {
-            window.print();
-        }, 500);
-    } else {
-        showToast('Unsupported Format', 'Currently, only PDF download is supported.', 'error');
-    }
+    showToast('Preparing PDF', 'Opening print dialog...', 'info');
+    setTimeout(() => window.print(), 500);
 }
 
 function resetForm() {
-    document.getElementById('assignmentForm').reset();
-    document.getElementById('coverPage').classList.add('hidden');
-    document.getElementById('downloadPdf').disabled = true;
- 
-    showToast('Form Reset', 'All fields have been reset.', 'info');
+    assignmentForm.reset();
+    coverPage.classList.add('hidden');
+    downloadPdf.disabled = true;
+    showToast('Form Reset', 'All fields cleared.', 'info');
 }
-
-// Auto-fill current date
-document.addEventListener('DOMContentLoaded', function() {
-    const dateInput = document.getElementById('inputSubmissionDate');
-    if (dateInput && !dateInput.value) {
-        const today = new Date();
-        const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        dateInput.value = today.toLocaleDateString('en-GB', options);
-    }
-    
-    // Add input event listeners for real-time validation
-    const inputs = document.querySelectorAll('#assignmentForm input');
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.checkValidity()) {
-                this.classList.remove('is-invalid');
-                this.classList.add('is-valid');
-            } else {
-                this.classList.remove('is-valid');
-                this.classList.add('is-invalid');
-            }
-        });
-    });
-});
 </script>
-
 </body>
 </html>
